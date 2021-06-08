@@ -20,7 +20,7 @@ public class DruidUtilTest {
         ResultSet resultSet = null;
         //2、    预编译sql语句
         try {
-            statement = connection.prepareStatement("select * from e_admin;");
+            statement = connection.prepareStatement("select * from admin;");
             //3、填充参数
             //4、执行并获取结果
             resultSet = statement.executeQuery();

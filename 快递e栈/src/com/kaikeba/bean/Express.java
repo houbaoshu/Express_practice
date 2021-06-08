@@ -11,7 +11,7 @@ public class Express {
     private java.sql.Timestamp inTime;
     private java.sql.Timestamp outTime;
     private int status;
-    private String adminPhone;
+    private String sysPhone;
 
     public Express() {
     }
@@ -28,7 +28,7 @@ public class Express {
                 ", inTime=" + inTime +
                 ", outTime=" + outTime +
                 ", status=" + status +
-                ", adminPhone='" + adminPhone + '\'' +
+                ", sysPhone='" + sysPhone + '\'' +
                 '}';
     }
 
@@ -114,11 +114,11 @@ public class Express {
 
 
     public String getAdminPhone() {
-        return adminPhone;
+        return sysPhone;
     }
 
-    public void setAdminPhone(String adminPhone) {
-        this.adminPhone = adminPhone;
+    public void setAdminPhone(String sysPhone) {
+        this.sysPhone = sysPhone;
     }
 
 }
