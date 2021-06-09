@@ -17,6 +17,10 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+/**
+ * servlet的调度类
+ * @author houbaoshu
+ */
 public class DispatcherServlet extends HttpServlet {
     //重写Servlet的初始化方法
     @Override

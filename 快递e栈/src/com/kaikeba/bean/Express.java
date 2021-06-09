@@ -18,6 +18,15 @@ public class Express {
     public Express() {
     }
 
+    public Express(String number, String username, String userPhone, String company, String code, String sysPhone) {
+        this.number = number;
+        this.username = username;
+        this.userPhone = userPhone;
+        this.company = company;
+        this.code = code;
+        this.sysPhone = sysPhone;
+    }
+
     public Express(int id, String number, String username, String userPhone, String company, String code, Timestamp inTime, Timestamp outTime, int status, String sysPhone) {
         this.id = id;
         this.number = number;
