@@ -1,5 +1,7 @@
 package com.kaikeba.bean;
 
+import java.sql.Timestamp;
+
 public class Express {
 
     private int id;
@@ -14,6 +16,19 @@ public class Express {
     private String sysPhone;
 
     public Express() {
+    }
+
+    public Express(int id, String number, String username, String userPhone, String company, String code, Timestamp inTime, Timestamp outTime, int status, String sysPhone) {
+        this.id = id;
+        this.number = number;
+        this.username = username;
+        this.userPhone = userPhone;
+        this.company = company;
+        this.code = code;
+        this.inTime = inTime;
+        this.outTime = outTime;
+        this.status = status;
+        this.sysPhone = sysPhone;
     }
 
     @Override
@@ -113,11 +128,11 @@ public class Express {
     }
 
 
-    public String getAdminPhone() {
+    public String getSysPhone() {
         return sysPhone;
     }
 
-    public void setAdminPhone(String sysPhone) {
+    public void setSysPhone(String sysPhone) {
         this.sysPhone = sysPhone;
     }
 

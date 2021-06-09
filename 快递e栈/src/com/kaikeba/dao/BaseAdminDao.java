@@ -4,6 +4,7 @@ import java.util.Date;
 
 /**
  * 用于定义admin表格的操作规范
+ * @author houbaoshu
  */
 public interface BaseAdminDao {
     /**
