@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
+/** 管理员控制对象
+ * @author houbaoshu
+ */
 public class AdminController {
     @ResponseBody("/admin/login.do")
     public String login(HttpServletRequest request, HttpServletResponse response) {

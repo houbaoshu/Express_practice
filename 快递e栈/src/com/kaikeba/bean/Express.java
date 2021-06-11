@@ -18,12 +18,19 @@ public class Express {
     public Express() {
     }
 
-    public Express(String number, String username, String userPhone, String company, String code, String sysPhone) {
+    public Express(String number, String username, String userPhone, String company, int status) {
         this.number = number;
         this.username = username;
         this.userPhone = userPhone;
         this.company = company;
-        this.code = code;
+        this.status = status;
+    }
+
+    public Express(String number, String username, String userPhone, String company, String sysPhone) {
+        this.number = number;
+        this.username = username;
+        this.userPhone = userPhone;
+        this.company = company;
         this.sysPhone = sysPhone;
     }
 
@@ -128,7 +135,7 @@ public class Express {
     }
 
 
-    public long getStatus() {
+    public int getStatus() {
         return status;
     }
 

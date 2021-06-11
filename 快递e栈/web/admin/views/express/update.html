@@ -97,7 +97,7 @@
 			};
 			if(userPhone != g_userPhone){
 				express.userPhone = userPhone;
-			}
+			}//不懂了！！！
 			$.getJSON("/express/update.do",express,function(data){
 				layer.close(windowId);
 				layer.msg(data.result)
