@@ -14,7 +14,7 @@ import java.util.Date;
  * @author houbaoshu
  */
 public class AdminDaoMysql implements BaseAdminDao {
-    private static final String SQL_UPDATE_LOGIN_TIME = "UPDATE admin SET login_time=?,login_ip=? WHERE username=?";
+    private static final String SQL_UPDATE_LOGIN_TIME = "UPDATE admin SET last_log_time=?,log_ip=? WHERE username=?";
     private static final String SQL_LOGIN = "SELECT id FROM admin WHERE username=? AND password=?";
     /**
      * 根据用户名，更新登陆时间和登陆ip
