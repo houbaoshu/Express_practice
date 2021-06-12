@@ -36,6 +36,14 @@ public class Admin {
         this.idCardNumber = idCardNumber;
     }
 
+    public Admin(int id, String username, String password, String userPhone, String idCardNumber) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.userPhone = userPhone;
+        this.idCardNumber = idCardNumber;
+    }
+
     @Override
     public String toString() {
         return "Admin{" +

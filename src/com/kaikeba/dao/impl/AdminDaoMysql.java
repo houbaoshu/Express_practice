@@ -154,10 +154,11 @@ public class AdminDaoMysql implements BaseAdminDao {
             statement.setString(1, userPhone);
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
+                int id = resultSet.getInt("id");
                 String username = resultSet.getString("username");
                 String idCordNumber = resultSet.getString("ID_card_number");
                 String password = resultSet.getString("password");
-                Admin admin = new Admin(username, password, userPhone, idCordNumber);
+                Admin admin = new Admin(id,username, password, userPhone, idCordNumber);
                 return admin;
             }
         } catch (SQLException throwables) {

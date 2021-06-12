@@ -48,6 +48,7 @@ public class AdminController {
         int offset = Integer.parseInt(request.getParameter("offset"));
         int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
         List<Admin> admins = AdminService.findAll(limit, offset, pageNumber);
+        System.out.println(admins);
         Message msg = new Message();
         if (admins != null) {
             msg.setStatus(0);
@@ -61,15 +62,18 @@ public class AdminController {
 
     @ResponseBody("/admin/find.do")
     public String findByUserPhone(HttpServletRequest request, HttpServletResponse response) {
+        Message msg = new Message();
         String userPhone = request.getParameter("userPhone");
         Admin admin = AdminService.findByUserPhone(userPhone);
-        Message msg = new Message();
+        System.out.println(admin);
         if (admin != null) {
             msg.setStatus(0);
+            msg.setResult("查询成功");
         } else {
             msg.setStatus(-1);
+            msg.setResult("查询失败");
         }
-        msg.setData(msg);
+        msg.setData(admin);
         String json = JSONUtil.toJSON(msg);
         return json;
     }

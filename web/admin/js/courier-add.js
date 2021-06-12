@@ -3,9 +3,9 @@ $(document).ready(() => {
         let windowId = layer.load();
         let username = $("input:eq(0)").val();
         let userPhone = $("input:eq(1)").val();
-        let IDCardNumber = $("input:eq(2)").val();
+        let idCardNumber = $("input:eq(2)").val();
         let password = $("input:eq(3)").val();
-        $.post('/courier/insert.do',{'username': username,'userPhone':userPhone,'IDCardNumber':IDCardNumber,'password':password},function (data) {
+        $.post('/admin/insert.do',{'username': username,'userPhone':userPhone,'idCardNumber':idCardNumber,'password':password},function (data) {
             layer.close(windowId);
             layer.msg(data.result);
             if (data.status == 0) {
