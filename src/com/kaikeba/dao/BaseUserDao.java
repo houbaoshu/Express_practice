@@ -3,9 +3,17 @@ package com.kaikeba.dao;
 import com.kaikeba.bean.User;
 import com.kaikeba.util.UserUtil;
 
+import java.util.Date;
 import java.util.List;
 
 public interface BaseUserDao {
+    /**
+     * 根据用户名，更新登陆时间和登陆ip
+     * @param username
+     * @param date
+     * @param ip
+     */
+    void updateLoginTimeAndIP (String username, Date date, String ip);
     /**
      * 查找所有
      * @param limit

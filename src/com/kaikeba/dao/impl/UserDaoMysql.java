@@ -6,6 +6,7 @@ import com.kaikeba.util.DruidUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class UserDaoMysql implements BaseUserDao {
@@ -15,6 +16,18 @@ public class UserDaoMysql implements BaseUserDao {
     private static final String SQL_INSERT = "INSERT INTO user (username,password,user_phone,ID_card_number,register_time) VALUES(?,?,?,?,NOW())";
     private static final String SQL_UPDATE = "UPDATE user SET username=?,password=?,user_phone=?,ID_card_number=? WHERE id=?";
     private static final String SQL_DELETE = "DELETE FROM user WHERE id=?";
+
+    /**
+     * 根据用户名，更新登陆时间和登陆ip
+     *
+     * @param username
+     * @param date
+     * @param ip
+     */
+    @Override
+    public void updateLoginTimeAndIP(String username, Date date, String ip) {
+
+    }
 
     /**
      * 查找所有

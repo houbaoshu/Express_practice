@@ -23,7 +23,7 @@ $(document).ready(() => {
         });
     });
     //删除快递员
-    $(".btn-info").on('click',() => {
+    $(".btn-info:eq(1)").on('click',() => {
         // let windowId = layer.load();
         let username = $("input:eq(1)").val();
         let userPhone = $("input:eq(2)").val();
