@@ -1,13 +1,16 @@
 package com.kaikeba.controller;
 
 import com.kaikeba.bean.Admin;
+import com.kaikeba.bean.BootstarpTable.AdminBootstrapTable;
 import com.kaikeba.bean.Message;
+import com.kaikeba.bean.ResultData;
 import com.kaikeba.mvc.annotation.ResponseBody;
 import com.kaikeba.service.AdminService;
 import com.kaikeba.util.JSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -48,16 +51,15 @@ public class AdminController {
         int offset = Integer.parseInt(request.getParameter("offset"));
         int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
         List<Admin> admins = AdminService.findAll(limit, offset, pageNumber);
-        System.out.println(admins);
-        Message msg = new Message();
-        if (admins != null) {
-            msg.setStatus(0);
-        } else {
-            msg.setStatus(-1);
+        // admins => adminBootstrapTables
+        List<AdminBootstrapTable> adminBootstrapTables = new ArrayList<>();
+        for (Admin admin : admins) {
+            adminBootstrapTables.add(new AdminBootstrapTable(admin));
         }
-        msg.setData(admins);
-        String json = JSONUtil.toJSON(msg);
-        return json;
+        //将Admin_BootstrapTable对象集合转成BootStrap—table控件所需要的一种数据类型
+        ResultData<AdminBootstrapTable> resultData = new ResultData<>();
+        resultData.setRows(adminBootstrapTables);
+        return JSONUtil.toJSON(resultData);
     }
 
     @ResponseBody("/admin/find.do")
@@ -65,7 +67,6 @@ public class AdminController {
         Message msg = new Message();
         String userPhone = request.getParameter("userPhone");
         Admin admin = AdminService.findByUserPhone(userPhone);
-        System.out.println(admin);
         if (admin != null) {
             msg.setStatus(0);
             msg.setResult("查询成功");

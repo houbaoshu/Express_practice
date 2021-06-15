@@ -63,7 +63,7 @@ public class Express {
                 '}';
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 

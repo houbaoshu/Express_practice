@@ -1,8 +1,10 @@
 package com.kaikeba.controller;
 
 import com.google.gson.Gson;
+import com.kaikeba.bean.BootstarpTable.ExpressBootstrapTable;
 import com.kaikeba.bean.Express;
 import com.kaikeba.bean.Message;
+import com.kaikeba.bean.ResultData;
 import com.kaikeba.mvc.annotation.ResponseBody;
 import com.kaikeba.mvc.annotation.ResponseView;
 import com.kaikeba.service.ExpressService;
@@ -13,6 +15,8 @@ import com.kaikeba.util.UserUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Provider;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -23,17 +27,16 @@ import java.util.Random;
 public class ExpressController {
     @ResponseBody("/express/console.do")
     public String console(HttpServletRequest request, HttpServletResponse response) {
-        List<Map<String, Integer>> data = ExpressService.console();
-        System.out.println("后台查询控制台数据为："+data);
+        List<Map<String, Integer>> resultData = ExpressService.console();
         Gson gson = new Gson();
         //将数据库查询信息和状态信息一并返回，封装在Message里
         Message msg = new Message();
-        if (data.size() == 0) {
+        if (resultData.size() == 0) {
             msg.setStatus(-1);
         } else {
             msg.setStatus(0);
         }
-        msg.setData(data);
+        msg.setData(resultData);
         return JSONUtil.toJSON(msg);
     }
 
@@ -43,10 +46,16 @@ public class ExpressController {
         int offset = Integer.parseInt(request.getParameter("offset"));
         int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
         List<Express> expresses = ExpressService.findAll(limit, offset, pageNumber);
-        System.out.println("后台查询快递信息为：" + expresses);
         //转成前台可以理解的格式
-        /* List<BootStrapTableExpress> list2 = new ArrayList<>();*/
-        return JSONUtil.toJSON(expresses);
+        ArrayList<ExpressBootstrapTable> expressBootstrapTable = new ArrayList<>();
+        //Express => ExpressBootStrapTable
+        for (Express express : expresses) {
+            expressBootstrapTable.add(new ExpressBootstrapTable(express));
+        }
+        //ExpressBootStrapTable => ResultData
+        ResultData<ExpressBootstrapTable> resultData = new ResultData<>();
+        resultData.setRows(expressBootstrapTable);
+        return JSONUtil.toJSON(resultData);
     }
 
    /* @ResponseBody("/express/findByNumber.do")*/
@@ -54,7 +63,6 @@ public class ExpressController {
     public String findByNumber(HttpServletRequest request, HttpServletResponse response) {
         String number = request.getParameter("number");
         Express express = ExpressService.findByNumber(number);
-        System.out.println("后台查找快递为：" + express);
         Message msg = new Message();
         if (express == null) {
             msg.setStatus(-1);

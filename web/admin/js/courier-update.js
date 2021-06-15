@@ -9,7 +9,7 @@ $(document).ready(() => {
         let windowId = layer.load;
         let userPhone = $(".inline-input").val();
         $.getJSON('/admin/find.do',{'userPhone':userPhone},function (data) {
-            layer.close(windowId);
+            // layer.close(windowId);
             layer.msg(data.result);
             if (data.status === 0) {
                 $(".header:eq(1),.content:eq(1)").fadeIn(1000);
