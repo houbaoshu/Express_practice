@@ -3,12 +3,27 @@ package com.kaikeba.service;
 import com.kaikeba.bean.Admin;
 import com.kaikeba.dao.BaseAdminDao;
 import com.kaikeba.dao.impl.AdminDaoMysql;
+import com.kaikeba.util.DruidUtil;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AdminService {
     private static BaseAdminDao dao = new AdminDaoMysql();
+    /**
+     * 获取快递员状态信息
+     *
+     * @return num_of_admin总的快递员人数， num_of_register今日快递员上线人数
+     */
+    public static Map<String, Integer> console() {
+        return dao.console();
+    }
 
     /**
      * 更新登录时间和ip

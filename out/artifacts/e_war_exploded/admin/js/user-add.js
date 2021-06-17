@@ -1,5 +1,5 @@
 $(document).ready(() => {
-    $("#user-add").on('click',() => {
+    $(".btn-info").on('click',() => {
         let windowId = layer.load();
         let username = $("input:eq(0)").val();
         let userPhone = $("input:eq(1)").val();

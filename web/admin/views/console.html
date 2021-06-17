@@ -44,7 +44,7 @@
                                 <div class="meta">
                                     <span>快递员人数</span>
                                 </div>
-                                <div class="total">888</div>
+                                <div class="total" id="num_of_admin"></div>
                             </div>
                         </div>
                         <div class="chart-body">
@@ -54,7 +54,7 @@
                         <div class="chart-footer">
                             <div class="field">
                                 <span>日注册量</span>
-                                <span>88</span>
+                                <span id="num_of_register"></span>
                             </div>
                         </div>
                     </div>
@@ -142,6 +142,15 @@
                 }
            },"JSON");
         });
+        $(function (){
+            //获取快递员信息
+            $.post("/admin/console.do",null,function (data){
+                if (data.status == 0) {
+                    $("#num_of_admin").html(data.data.numOfAdmin);
+                    $("#num_of_register").html(data.data.numOfRegister)
+                }
+            },'JSON')
+        })
     </script>
 </body>
 </html>

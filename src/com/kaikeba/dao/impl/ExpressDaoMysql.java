@@ -89,8 +89,9 @@ public class ExpressDaoMysql implements BaseExpressDao {
                 statement = connection.prepareStatement(SQL_FIND_LIMIT);
                 statement.setInt(1, offset);
                 statement.setInt(2, pageNumber);
+            } else {
+                statement = connection.prepareStatement(SQL_FIND_ALL);
             }
-            statement = connection.prepareStatement(SQL_FIND_ALL);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
@@ -281,7 +282,7 @@ public class ExpressDaoMysql implements BaseExpressDao {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
-            DruidUtil.close(connection, statement,null);
+            DruidUtil.close(connection, statement, null);
         }
         return false;
     }
@@ -308,7 +309,7 @@ public class ExpressDaoMysql implements BaseExpressDao {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
-            DruidUtil.close(connection, statement,null);
+            DruidUtil.close(connection, statement, null);
         }
         return false;
     }
@@ -330,7 +331,7 @@ public class ExpressDaoMysql implements BaseExpressDao {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
-            DruidUtil.close(connection, statement,null);
+            DruidUtil.close(connection, statement, null);
         }
         return false;
     }
@@ -352,7 +353,7 @@ public class ExpressDaoMysql implements BaseExpressDao {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
-            DruidUtil.close(connection, statement,null);
+            DruidUtil.close(connection, statement, null);
         }
         return false;
     }

@@ -34,7 +34,7 @@ $(document).ready(() => {
             layer.msg(data.result);
             if (data.status == 0) {
                 //更新成功
-                $("input").val("");
+                $(".header:eq(1),.content:eq(1)").hide();
             }
         },'JSON');
     });

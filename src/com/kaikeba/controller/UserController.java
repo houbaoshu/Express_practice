@@ -22,10 +22,9 @@ public class UserController {
 
     @ResponseBody("/user/list.do")
     public String findAll(HttpServletRequest request, HttpServletResponse response) {
-        boolean limit = Boolean.parseBoolean(request.getParameter("limit"));
         int offset = Integer.parseInt(request.getParameter("offset"));
         int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-        List<User> users = UserService.findAll(limit, offset, pageNumber);
+        List<User> users = UserService.findAll(true, offset, pageNumber);
         // user => userBootstrapTable
         ArrayList<UserBootstrapTable> userBootstrapTable = new ArrayList<>();
         for (User user : users) {

@@ -42,10 +42,9 @@ public class ExpressController {
 
     @ResponseBody("/express/list.do")
     public String findAll(HttpServletRequest request, HttpServletResponse response) {
-        boolean limit = Boolean.parseBoolean(request.getParameter("limit"));
         int offset = Integer.parseInt(request.getParameter("offset"));
         int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-        List<Express> expresses = ExpressService.findAll(limit, offset, pageNumber);
+        List<Express> expresses = ExpressService.findAll(true, offset, pageNumber);
         //转成前台可以理解的格式
         ArrayList<ExpressBootstrapTable> expressBootstrapTable = new ArrayList<>();
         //Express => ExpressBootStrapTable
@@ -55,6 +54,10 @@ public class ExpressController {
         //ExpressBootStrapTable => ResultData
         ResultData<ExpressBootstrapTable> resultData = new ResultData<>();
         resultData.setRows(expressBootstrapTable);
+        //获得总的快递数量
+        List<Map<String, Integer>> console = ExpressService.console();
+        int totalExpress = console.get(0).get("data1_size");
+        resultData.setTotal(totalExpress);
         return JSONUtil.toJSON(resultData);
     }
 

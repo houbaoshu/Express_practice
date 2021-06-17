@@ -30,10 +30,11 @@ $(document).ready(() => {
         let idCardNumber = $("input:eq(3)").val();
         let password = $("input:eq(4)").val();
         $.post('/admin/delete.do',{'id':adminId,'username': username,'userPhone':userPhone,'idCardNumber':idCardNumber,'password':password},function (data) {
+            layer.close(windowId);
             layer.msg(data.result);
             if (data.status == 0) {
                 //删除成功
-                $("input").val("");
+                $(".header:eq(1),.content:eq(1)").hide();
             }
         },'JSON');
     });

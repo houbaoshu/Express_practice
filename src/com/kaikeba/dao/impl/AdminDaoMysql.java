@@ -6,8 +6,9 @@ import com.kaikeba.util.DruidUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 操作管理员表的dao
@@ -36,6 +37,8 @@ public class AdminDaoMysql implements BaseAdminDao {
     private static final String SQL_INSERT = "INSERT INTO admin (username, password, user_phone, ID_card_number,register_time) VALUES (?,?,?,?,NOW())";
     private static final String SQL_UPDATE = "UPDATE admin SET username=?,password=?,user_phone=?,ID_card_number=? WHERE id=?";
     private static final String SQL_DELETE = "DELETE FROM admin WHERE id=?";
+    private static final String SQL_CONSOLE = "SELECT COUNT(id) AS num_of_admin,COUNT(to_days(register_time)=to_days(now()) OR NULL ) AS num_of_register FROM admin";
+
 
     /**
      * 根据用户名，更新登陆时间和登陆ip
@@ -45,7 +48,7 @@ public class AdminDaoMysql implements BaseAdminDao {
      * @param ip
      */
     @Override
-    public void updateLoginTimeAndIP(String username, Date date, String ip) {
+    public void updateLoginTimeAndIP(String username, java.util.Date date, String ip) {
         //1、获取连接
         Connection connection = DruidUtil.getConnection();
         PreparedStatement statement = null;
@@ -98,6 +101,36 @@ public class AdminDaoMysql implements BaseAdminDao {
     }
 
     /**
+     * 获取快递员状态信息
+     *
+     * @return num_of_admin总的快递员人数， num_of_register今日快递员上线人数
+     */
+    @Override
+    public Map<String, Integer> console() {
+        Connection connection = DruidUtil.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(SQL_CONSOLE);
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                int numOfAdmin = resultSet.getInt("num_of_admin");
+                int numOfRegister = resultSet.getInt("num_of_register");
+                Map map = new HashMap();
+                map.put("numOfAdmin", numOfAdmin);
+                map.put("numOfRegister", numOfRegister);
+                return map;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            DruidUtil.close(connection, statement, resultSet);
+        }
+        return null;
+    }
+
+
+    /**
      * 查找所有管理员
      *
      * @param limit
@@ -116,8 +149,9 @@ public class AdminDaoMysql implements BaseAdminDao {
                 statement = connection.prepareStatement(SQL_FIND_LIMIT);
                 statement.setInt(1, offset);
                 statement.setInt(2, pageNumber);
+            } else {
+                statement = connection.prepareStatement(SQL_FIND_ALL);
             }
-            statement = connection.prepareStatement(SQL_FIND_ALL);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
@@ -128,7 +162,7 @@ public class AdminDaoMysql implements BaseAdminDao {
                 String userPhone = resultSet.getString("user_phone");
                 String idCardNumber = resultSet.getString("ID_card_number");
                 int numOfDelivered = resultSet.getInt("num_of_delivered");
-                Admin admin = new Admin(id,username,password,lastLogTime,registerTime,userPhone,idCardNumber,numOfDelivered);
+                Admin admin = new Admin(id, username, password, lastLogTime, registerTime, userPhone, idCardNumber, numOfDelivered);
                 admins.add(admin);
             }
         } catch (SQLException throwables) {
@@ -158,7 +192,7 @@ public class AdminDaoMysql implements BaseAdminDao {
                 String username = resultSet.getString("username");
                 String idCordNumber = resultSet.getString("ID_card_number");
                 String password = resultSet.getString("password");
-                Admin admin = new Admin(id,username, password, userPhone, idCordNumber);
+                Admin admin = new Admin(id, username, password, userPhone, idCordNumber);
                 return admin;
             }
         } catch (SQLException throwables) {
@@ -218,6 +252,7 @@ public class AdminDaoMysql implements BaseAdminDao {
 
     /**
      * 更新管理员，可更新项username,password,userPhone,IDCardNumber
+     *
      * @param id
      * @param admin
      * @return
@@ -232,7 +267,7 @@ public class AdminDaoMysql implements BaseAdminDao {
             statement.setString(2, admin.getPassword());
             statement.setString(3, admin.getUserPhone());
             statement.setString(4, admin.getIdCardNumber());
-            statement.setInt(5,id);
+            statement.setInt(5, id);
             return statement.executeUpdate() > 0 ? true : false;
         } catch (SQLException throwables) {
             throwables.printStackTrace();

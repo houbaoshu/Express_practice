@@ -6,6 +6,7 @@ import com.kaikeba.bean.Message;
 import com.kaikeba.bean.ResultData;
 import com.kaikeba.mvc.annotation.ResponseBody;
 import com.kaikeba.service.AdminService;
+import com.kaikeba.service.ExpressService;
 import com.kaikeba.util.JSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 管理员控制对象
@@ -45,20 +47,35 @@ public class AdminController {
         return json;
     }
 
+    @ResponseBody("/admin/console.do")
+    public String console(HttpServletRequest request, HttpServletResponse response) {
+        Message msg = new Message();
+        Map<String, Integer> resultData = AdminService.console();
+        if (resultData.size() == 0) {
+            msg.setStatus(-1);
+        } else {
+            msg.setStatus(0);
+        }
+        msg.setData(resultData);
+        return JSONUtil.toJSON(msg);
+    }
     @ResponseBody("/admin/list.do")
     public String findAll(HttpServletRequest request, HttpServletResponse response) {
-        boolean limit = Boolean.parseBoolean(request.getParameter("limit"));
         int offset = Integer.parseInt(request.getParameter("offset"));
         int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-        List<Admin> admins = AdminService.findAll(limit, offset, pageNumber);
+        List<Admin> admins = AdminService.findAll(true, offset, pageNumber);
         // admins => adminBootstrapTables
         List<AdminBootstrapTable> adminBootstrapTables = new ArrayList<>();
         for (Admin admin : admins) {
             adminBootstrapTables.add(new AdminBootstrapTable(admin));
         }
+        //获得快递员总数和新增快递员人数
+        Map<String, Integer> console = AdminService.console();
+        int numOfAdmin = console.get("numOfAdmin");
         //将Admin_BootstrapTable对象集合转成BootStrap—table控件所需要的一种数据类型
         ResultData<AdminBootstrapTable> resultData = new ResultData<>();
         resultData.setRows(adminBootstrapTables);
+        resultData.setTotal(numOfAdmin);
         return JSONUtil.toJSON(resultData);
     }
 

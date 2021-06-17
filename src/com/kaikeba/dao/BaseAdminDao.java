@@ -4,6 +4,7 @@ import com.kaikeba.bean.Admin;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用于定义admin表格的操作规范
@@ -26,6 +27,11 @@ public interface BaseAdminDao {
      */
     boolean login(String username, String password);
 
+    /**
+     * 获取快递员状态信息
+     * @return num_of_admin总的快递员人数， num_of_register今日快递员上线人数
+     */
+    Map<String, Integer> console();
 
     /**
      * 查找所有管理员
