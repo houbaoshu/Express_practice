@@ -162,8 +162,10 @@ public class ExpressController {
         Message msg = new Message();
         if (delete) {
             msg.setStatus(0);
+            msg.setResult("快递删除成功");
         } else {
             msg.setStatus(-1);
+            msg.setResult("快递删除失败");
         }
         msg.setData(msg);
         return  JSONUtil.toJSON(msg);

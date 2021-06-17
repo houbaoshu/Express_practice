@@ -111,7 +111,7 @@ public class AdminController {
         boolean insert = AdminService.insert(admin);
         if (insert) {
             msg.setStatus(0);
-            msg.setData("添加成功");
+            msg.setResult("添加成功");
         } else {
             msg.setStatus(-1);
             msg.setResult("添加失败");
@@ -133,7 +133,7 @@ public class AdminController {
             msg.setResult("删除失败");
         }
         msg.setData(delete);
-        String json = JSONUtil.toJSON("msg");
+        String json = JSONUtil.toJSON(msg);
         return json;
     }
 }

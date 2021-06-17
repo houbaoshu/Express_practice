@@ -5,7 +5,7 @@ $(document).ready(() => {
     let userId = null;
     let g_userPhone = null;
     // 查询成功后显示快递员信息
-    $("#user-find").on('click',() => {
+    $(".btn-info:eq(0)").on('click',() => {
         let windowId = layer.load();
         let userPhone = $(".inline-input").val();
         $.getJSON('/user/find.do',{'userPhone':userPhone},function (data) {
@@ -23,7 +23,7 @@ $(document).ready(() => {
         });
     });
     //删除快递员
-    $("#user-update").on('click',() => {
+    $(".btn-info:eq(1)").on('click',() => {
         let windowId = layer.load();
         let username = $("input:eq(1)").val();
         let userPhone = $("input:eq(2)").val();
@@ -34,7 +34,7 @@ $(document).ready(() => {
             layer.msg(data.result);
             if (data.status == 0) {
                 //更新成功
-                $("input").val("");
+                $(".header:eq(1),.content:eq(1)").hide();
             }
         },'JSON');
     });
