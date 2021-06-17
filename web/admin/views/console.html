@@ -20,7 +20,7 @@
                                 <div class="meta">
                                     <span>用户人数</span>
                                 </div>
-                                <div class="total">6666</div>
+                                <div class="total" id="num_of_user"></div>
                             </div>
                         </div>
                         <div class="chart-body">
@@ -30,7 +30,7 @@
                         <div class="chart-footer">
                             <div class="field">
                                 <span>日注册量</span>
-                                <span>666</span>
+                                <span id="num_of_user_register"></span>
                             </div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                         <div class="chart-footer">
                             <div class="field">
                                 <span>日注册量</span>
-                                <span id="num_of_register"></span>
+                                <span id="num_of_admin_register"></span>
                             </div>
                         </div>
                     </div>
@@ -147,7 +147,16 @@
             $.post("/admin/console.do",null,function (data){
                 if (data.status == 0) {
                     $("#num_of_admin").html(data.data.numOfAdmin);
-                    $("#num_of_register").html(data.data.numOfRegister)
+                    $("#num_of_admin_register").html(data.data.numOfRegister)
+                }
+            },'JSON')
+        })
+        $(function (){
+            //获取快递员信息
+            $.post("/user/console.do",null,function (data){
+                if (data.status == 0) {
+                    $("#num_of_user").html(data.data.numOfUser);
+                    $("#num_of_user_register").html(data.data.numOfRegister)
                 }
             },'JSON')
         })

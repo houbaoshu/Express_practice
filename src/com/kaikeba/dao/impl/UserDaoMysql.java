@@ -6,7 +6,9 @@ import com.kaikeba.util.DruidUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserDaoMysql implements BaseUserDao {
     private static final String SQL_FIND_ALL = "SELECT * FROM user";
@@ -15,7 +17,36 @@ public class UserDaoMysql implements BaseUserDao {
     private static final String SQL_INSERT = "INSERT INTO user (username,password,user_phone,ID_card_number,register_time) VALUES(?,?,?,?,NOW())";
     private static final String SQL_UPDATE = "UPDATE user SET username=?,password=?,user_phone=?,ID_card_number=? WHERE id=?";
     private static final String SQL_DELETE = "DELETE FROM user WHERE id=?";
+    private static final String SQL_CONSOLE = "SELECT COUNT(id) AS num_of_user, COUNT(to_days(register_time)=to_days(now()) OR NULL) AS num_of_register FROM user";
 
+    /**
+     * 用于控制台查询用户信息
+     *
+     * @return 用户总人数numOfUser，新增用户数numOfRegister
+     */
+    @Override
+    public Map<String, Integer> console() {
+        Connection connection = DruidUtil.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(SQL_CONSOLE);
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                int numOfUser = resultSet.getInt("num_of_user");
+                int numOfRegister = resultSet.getInt("num_of_register");
+                Map map = new HashMap();
+                map.put("numOfUser", numOfUser);
+                map.put("numOfRegister", numOfRegister);
+                return map;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            DruidUtil.close(connection, statement, resultSet);
+        }
+        return null;
+    }
 
     /**
      * 查找所有

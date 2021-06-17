@@ -1,9 +1,9 @@
 package com.kaikeba.controller;
 
 import com.kaikeba.bean.BootstarpTable.UserBootstrapTable;
+import com.kaikeba.bean.Message;
 import com.kaikeba.bean.ResultData;
 import com.kaikeba.bean.User;
-import com.kaikeba.bean.Message;
 import com.kaikeba.mvc.annotation.ResponseBody;
 import com.kaikeba.service.UserService;
 import com.kaikeba.util.JSONUtil;
@@ -12,13 +12,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
- * 管理员控制对象
+ * 用户控制对象
  *
  * @author houbaoshu
  */
 public class UserController {
+    @ResponseBody("/user/console.do")
+    public String console(HttpServletRequest request ,HttpServletResponse response ) {
+        Message msg = new Message();
+        Map<String, Integer> console = UserService.console();
+        if (console.size() == 0) {
+            msg.setStatus(-1);
+        } else {
+            msg.setStatus(0);
+        }
+        msg.setData(console);
+        System.out.println(msg);
+        return JSONUtil.toJSON(msg);
+    }
 
     @ResponseBody("/user/list.do")
     public String findAll(HttpServletRequest request, HttpServletResponse response) {
@@ -33,6 +47,10 @@ public class UserController {
         //userBootstrapTable => resultData
         ResultData<UserBootstrapTable> resultData = new ResultData<>();
         resultData.setRows(userBootstrapTable);
+        //获得总的用户人数
+        Map<String, Integer> console = UserService.console();
+        int numOfUser = console.get("numOfUser");
+        resultData.setTotal(numOfUser);
         return JSONUtil.toJSON(resultData);
     }
 
@@ -74,6 +92,7 @@ public class UserController {
         String json = JSONUtil.toJSON(msg);
         return json;
     }
+
     @ResponseBody("/user/insert.do")
     public String insert(HttpServletRequest request, HttpServletResponse response) {
         Message msg = new Message();
@@ -94,6 +113,7 @@ public class UserController {
         String json = JSONUtil.toJSON(msg);
         return json;
     }
+
     @ResponseBody("/user/delete.do")
     public String delete(HttpServletRequest request, HttpServletResponse response) {
         Message msg = new Message();

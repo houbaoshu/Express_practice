@@ -5,10 +5,14 @@ import com.kaikeba.dao.BaseUserDao;
 import com.kaikeba.dao.impl.UserDaoMysql;
 
 import java.util.List;
+import java.util.Map;
 
 public class UserService  {
     private static BaseUserDao dao = new UserDaoMysql();
 
+    public static Map<String,Integer> console() {
+        return dao.console();
+    }
     /**
      * 查找所有
      *
