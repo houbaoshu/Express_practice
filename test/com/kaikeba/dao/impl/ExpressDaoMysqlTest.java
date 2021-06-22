@@ -88,4 +88,10 @@ public class ExpressDaoMysqlTest {
         boolean delete = expressDaoMysql.delete(4);
         System.out.println(delete);
     }
+    @Test
+    public void findByUserPhoneAndStatus() {
+        ExpressDaoMysql expressDaoMysql = new ExpressDaoMysql();
+        List<Express> byUserPhoneAndStatus = expressDaoMysql.findByUserPhoneAndStatus("13843838438", 1);
+        System.out.println(byUserPhoneAndStatus);
+    }
 }

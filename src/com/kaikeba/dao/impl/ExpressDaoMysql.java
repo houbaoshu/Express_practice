@@ -28,6 +28,7 @@ public class ExpressDaoMysql implements BaseExpressDao {
     private static final String SQL_UPDATE = "UPDATE Express SET number=?,username=?,company=?,status=? WHERE id=?";
     private static final String SQL_UPDATE_STATUS = "UPDATE Express SET status=1,out_time=NOW(),code=NULL WHERE code=?";
     private static final String SQL_DELETE = "DELETE FROM Express WHERE id=?";
+    private static final String SQL_FIND_BY_USERPHONE_AND_STATUS = "SELECT * FROM Express WHERE user_phone=? and status=?";
 
 
     /**
@@ -201,7 +202,7 @@ public class ExpressDaoMysql implements BaseExpressDao {
             statement = connection.prepareStatement(SQL_FIND_BY_USERPHONE);
             statement.setString(1, userPhone);
             resultSet = statement.executeQuery();
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String username = resultSet.getString("username");
                 String number = resultSet.getString("number");
@@ -249,6 +250,44 @@ public class ExpressDaoMysql implements BaseExpressDao {
                 Timestamp outTime = resultSet.getTimestamp("out_time");
                 int status = resultSet.getInt("status");
                 String userPhone = resultSet.getString("user_phone");
+                Express express = new Express(id, number, username, userPhone, company, code, inTime, outTime, status, sysPhone);
+                expresses.add(express);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            DruidUtil.close(connection, statement, resultSet);
+        }
+        return expresses;
+    }
+
+    /**
+     * 根据手机号码和状态码查询快递
+     *
+     * @param userPhone
+     * @param status
+     * @return
+     */
+    @Override
+    public List<Express> findByUserPhoneAndStatus(String userPhone, int status) {
+        List expresses = new ArrayList();
+        Connection connection = DruidUtil.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(SQL_FIND_BY_USERPHONE_AND_STATUS);
+            statement.setString(1, userPhone);
+            statement.setInt(2,status);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String username = resultSet.getString("username");
+                String number = resultSet.getString("number");
+                String company = resultSet.getString("company");
+                String code = resultSet.getString("code");
+                Timestamp inTime = resultSet.getTimestamp("in_time");
+                Timestamp outTime = resultSet.getTimestamp("out_time");
+                String sysPhone = resultSet.getString("sys_phone");
                 Express express = new Express(id, number, username, userPhone, company, code, inTime, outTime, status, sysPhone);
                 expresses.add(express);
             }

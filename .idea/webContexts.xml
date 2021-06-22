@@ -5,6 +5,8 @@
       <map>
         <entry key="file://$PROJECT_DIR$/web/admin/views/express/add.html" value="file://$PROJECT_DIR$/web/admin/views/express" />
         <entry key="file://$PROJECT_DIR$/web/admin/views/user/update.html" value="file://$PROJECT_DIR$/web/admin/views/user" />
+        <entry key="file://$PROJECT_DIR$/web/wx/expressList.html" value="file://$PROJECT_DIR$/web/wx" />
+        <entry key="file://$PROJECT_DIR$/web/wx/pickExpress.html" value="file://$PROJECT_DIR$/web/wx" />
       </map>
     </option>
   </component>

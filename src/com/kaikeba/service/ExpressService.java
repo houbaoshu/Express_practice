@@ -141,6 +141,13 @@ public class ExpressService {
     public static boolean delete(int id) {
         return dao.delete(id);
     }
-
-
+    /**
+     *  根据手机号码和状态码查询快递
+     * @param userPhone
+     * @param status
+     * @return
+     */
+    public static List<Express> findByUserPhoneAndStatus(String userPhone,int status){
+        return dao.findByUserPhoneAndStatus(userPhone, status);
+    }
 }

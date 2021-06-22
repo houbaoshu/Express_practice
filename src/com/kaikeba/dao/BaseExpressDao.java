@@ -61,6 +61,14 @@ public interface BaseExpressDao {
     List<Express> findBySysPhone(String sysPhone);
 
     /**
+     *  根据手机号码和状态码查询快递
+     * @param userPhone
+     * @param status
+     * @return
+     */
+    List<Express> findByUserPhoneAndStatus(String userPhone,int status);
+
+    /**
      * 快递的录入
      *
      * @param e 要录入的快递对象

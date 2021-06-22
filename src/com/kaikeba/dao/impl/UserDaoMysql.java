@@ -92,7 +92,7 @@ public class UserDaoMysql implements BaseUserDao {
     }
 
     /**
-     * 根据手机号码查找快递
+     * 根据手机号码查找用户
      *
      * @param userPhone
      * @return
