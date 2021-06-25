@@ -23,6 +23,7 @@ public class Message {
         this.data = data;
     }
 
+
     public int getStatus() {
         return status;
     }

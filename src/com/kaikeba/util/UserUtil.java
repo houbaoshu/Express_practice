@@ -45,4 +45,22 @@ public class UserUtil {
         }
         return userPhone;
     }
+    //将用户的手机号与登陆验证码放入session对象中相关联
+    public static void setLoginSms(HttpSession session, String userPhone, String code) {
+        session.setAttribute(userPhone,code);
+    }
+    //得到放入用户session对象中的登陆验证码
+    public static String getLoginSms(HttpSession session,String userPhone){
+
+        return (String) session.getAttribute(userPhone);
+    }
+
+    public static void setWxObjectAndIdentity(HttpSession session, Object object, String identify) {
+        session.setAttribute("wxObject",object);
+        session.setAttribute("identity",identify);
+    }
+
+    public static String getAdminName(HttpSession session) {
+        return (String) session.getAttribute("name");
+    }
 }

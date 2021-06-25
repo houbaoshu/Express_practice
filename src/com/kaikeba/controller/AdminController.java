@@ -37,7 +37,7 @@ public class AdminController {
             Date date = new Date();
             String ip = request.getRemoteAddr();
             AdminService.updateLoginTimeAndIP(username, date, ip);
-            request.getSession().setAttribute("adminUserName", "username");
+            request.getSession().setAttribute("name", "username");
         } else {
             message = new Message(-1, "登录失败");
         }

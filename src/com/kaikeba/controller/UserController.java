@@ -30,7 +30,6 @@ public class UserController {
             msg.setStatus(0);
         }
         msg.setData(console);
-        System.out.println(msg);
         return JSONUtil.toJSON(msg);
     }
 
