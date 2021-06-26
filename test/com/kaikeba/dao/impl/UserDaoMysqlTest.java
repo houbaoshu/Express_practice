@@ -45,7 +45,7 @@ public class UserDaoMysqlTest {
     @Test
     public void delete() {
         UserDaoMysql userDaoMysql = new UserDaoMysql();
-        boolean delete = userDaoMysql.delete(5);
+        boolean delete = userDaoMysql.delete(28);
         System.out.println(delete);
     }
 }

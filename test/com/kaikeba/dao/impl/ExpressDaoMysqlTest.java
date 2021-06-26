@@ -91,7 +91,7 @@ public class ExpressDaoMysqlTest {
     @Test
     public void findByUserPhoneAndStatus() {
         ExpressDaoMysql expressDaoMysql = new ExpressDaoMysql();
-        List<Express> byUserPhoneAndStatus = expressDaoMysql.findByUserPhoneAndStatus("13843838438", 1);
+        List<Express> byUserPhoneAndStatus = expressDaoMysql.findByUserPhoneAndStatus("14455556666", 0);
         System.out.println(byUserPhoneAndStatus);
     }
 }

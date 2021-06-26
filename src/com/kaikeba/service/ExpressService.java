@@ -5,6 +5,7 @@ import com.kaikeba.dao.BaseExpressDao;
 import com.kaikeba.dao.impl.ExpressDaoMysql;
 import com.kaikeba.exception.DuplicateCodeException;
 import com.kaikeba.util.RandomUtil;
+import com.kaikeba.util.SmsUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -88,6 +89,7 @@ public class ExpressService {
             insert = dao.insert(express);
             //插入成功则发送验证码
             if (insert) {
+                SmsUtil.send(express.getUserPhone(),express.getCode());
                 System.out.println("收件人手机号码：" + express.getUserPhone() + " 验证码：" + express.getCode());
             }
             return insert;
