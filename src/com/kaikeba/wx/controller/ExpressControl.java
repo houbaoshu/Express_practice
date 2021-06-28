@@ -1,5 +1,6 @@
 package com.kaikeba.wx.controller;
 
+import com.kaikeba.bean.Admin;
 import com.kaikeba.bean.BootstarpTable.ExpressBootstrapTable;
 import com.kaikeba.bean.Express;
 import com.kaikeba.bean.Message;
@@ -10,6 +11,7 @@ import com.kaikeba.util.UserUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -116,4 +118,30 @@ public class ExpressControl {
         return JSONUtil.toJSON(msg);
     }
 
+    @ResponseBody("/wx/add-express.do")
+    public String addExpress(HttpServletRequest request, HttpServletResponse response) {
+        //新建一条信息
+        Message msg = new Message();
+        //从session中获得录入人的手机号码
+        HttpSession session = request.getSession();
+        Admin admin = (Admin) UserUtil.getWxObject(session);
+        String userPhone = admin.getUserPhone();
+        //获得表单信息
+        String expressId = request.getParameter("expressId");
+        String username = request.getParameter("username");
+        String phone = request.getParameter("phone");
+        String company = request.getParameter("company");
+        //录入快递
+        Express express = new Express(expressId, username, phone, company, userPhone);
+        boolean insert = ExpressService.insert(express);
+        //设置信息
+        if (insert) {
+            msg.setStatus(0);
+            msg.setResult("录入成功");
+        } else {
+            msg.setStatus(1);
+            msg.setResult("录入失败");
+        }
+        return JSONUtil.toJSON(msg);
+    }
 }

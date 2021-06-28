@@ -85,7 +85,7 @@ public class ExpressDaoMysqlTest {
     @Test
     public void delete() {
         ExpressDaoMysql expressDaoMysql = new ExpressDaoMysql();
-        boolean delete = expressDaoMysql.delete(4);
+        boolean delete = expressDaoMysql.delete(36);
         System.out.println(delete);
     }
     @Test
