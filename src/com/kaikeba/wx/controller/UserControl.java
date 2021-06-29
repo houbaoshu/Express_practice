@@ -1,15 +1,18 @@
 package com.kaikeba.wx.controller;
 
 import com.kaikeba.bean.Admin;
+import com.kaikeba.bean.Express;
 import com.kaikeba.bean.Message;
 import com.kaikeba.bean.User;
 import com.kaikeba.mvc.annotation.ResponseBody;
 import com.kaikeba.service.AdminService;
+import com.kaikeba.service.ExpressService;
 import com.kaikeba.service.UserService;
 import com.kaikeba.util.JSONUtil;
 import com.kaikeba.util.RandomUtil;
 import com.kaikeba.util.SmsUtil;
 import com.kaikeba.util.UserUtil;
+import com.mysql.cj.Session;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -140,4 +143,33 @@ public class UserControl {
         return JSONUtil.toJSON(message);
     }
 
+    /* 完善用户信息*/
+    @ResponseBody("/wx/update.do")
+    public String update(HttpServletRequest request, HttpServletResponse response) {
+        //新建信息
+        Message msg = new Message();
+        //获取参数
+        String username = request.getParameter("username");
+        String userPhone = request.getParameter("userPhone");
+        String password = request.getParameter("password");
+        String code = request.getParameter("code");
+        //验证码比对
+        HttpSession session = request.getSession();
+        String loginSms = UserUtil.getLoginSms(session, userPhone);
+        //登录用户id
+        User user = (User) UserUtil.getWxObject(session);
+        int id = user.getId();
+        if (loginSms == code) {
+            User newUser = new User(username, password, userPhone);
+            boolean update = UserService.update(id, newUser);
+            if (update) {
+                msg.setStatus(0);
+                msg.setResult("认证成功");
+            }
+        } else {
+            msg.setStatus(-1);
+            msg.setResult("验证码错误");
+        }
+        return JSONUtil.toJSON(msg);
+    }
 }

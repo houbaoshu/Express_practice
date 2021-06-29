@@ -27,7 +27,13 @@ public class User {
     this.idCardNumber = idCardNumber;
   }
 
-  @Override
+    public User(String username, String password, String userPhone) {
+      this.username = username;
+      this.password = password;
+      this.userPhone = userPhone;
+    }
+
+    @Override
   public String toString() {
     return "User{" +
             "id=" + id +
